@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: 'Poppins';
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+body {
+    background-color: #435165;
+    margin: 0;
+}
+input {
+    outline: none;
+}
+.register {
+    width: 400px;
+    background-color: #ffffff;
+    box-shadow: 0 0 9px 0 rgba(0, 0, 0, 0.3);
+    margin: 100px auto;
+    padding-bottom: 10px;
+}
+.register h1 {
+    text-align: center;
+    color: #5b6574;
+    font-size: 24px;
+    padding: 20px 0 20px 0;
+    margin-bottom: 0px;
+    border-bottom: 1px solid #dee0e4;
+}
+.register form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding-top: 7px;
+}
+.register form label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    background-color: #3274d6;
+    color: #ffffff;
+}
+.register form input[type="password"], .register form input[type="text"], .register form input[type="email"] {
+    width: 310px;
+    height: 50px;
+    border: 1px solid #dee0e4;
+    margin-bottom: 20px;
+    padding: 0 15px;
+}
+.register form input[type="submit"] {
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    background-color: #3274d6;
+    border: 0;
+    cursor: pointer;
+    font-weight: bold;
+    color: #ffffff;
+    transition: background-color 0.2s;
+}
+.register form input[type="submit"]:hover {
+    background-color: #2868c7;
+    transition: background-color 0.2s;
+}
+
+.buttonRegister {
+    background-color: #3274d6;
+    color: #ffffff;
+    width: 100%;
+    border: none;
+    height: 50px;
+    transition: 0.3s;
+    margin: 0px 20px;
+}
+
+.password_requirements {
+    margin: 0px 20px;
+    width: 100%;
+    text-align: right;
+    font-size: 12px;
+    color: gray;
+    height: 20px;
+}
+
+.message_error {
+    width: 100%;
+    background-color: #dc3545;
+    color: white;
+    margin: 2px;
+    padding: 5px;
+    margin: 0px 20px 10px;
+    display: none;
+    border-radius: 2px;
+}
+.message_succes {
+    width: 100%;
+    background-color: #28a745;
+    color: white;
+    margin: 2px;
+    padding: 5px;
+    margin: 0px 20px 10px;
+    display: none;
+    border-radius: 2px;
+}
+
+.buttonRegister:hover {
+    background-color: #4887ec;
+}

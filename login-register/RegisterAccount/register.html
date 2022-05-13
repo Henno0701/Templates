@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Register</title>
+    <!-- Imports -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- StyleSheet -->
+    <link type="text/css" rel="stylesheet" href="../css/register-style.css">
+    <!-- JavaScript -->
+    <script src="../js/jquery-3.6.0.min.js"></script>
+
+</head>
+<body>
+<div class="register">
+    <h1 style="font-weight: 500">Registreer</h1>
+    <a href="../Index.html" style="width: 100%;padding: 0px 20px;font-size: 12px"><i class="fas fa-long-arrow-alt-left" style="margin-right: 5px;font-size: 12px"></i>Terug</a>
+    <form id="register_form" name="form2" method="post"autocomplete="off">
+        <div class="message_error" id="message_desc_error"><i class="fas fa-times" style="margin-right: 5px"></i><span id="message_desc_error_text"></span></div>
+        <div class="message_succes " id="message_desc_succes"><i class="fas fa-check" style="margin-right: 5px"></i><span id="message_desc_succes_text"></span></div>
+        <label for="username">
+            <i class="fas fa-user"></i>
+        </label>
+        <input type="text" name="username" placeholder="Gebruikersnaam" id="username" required>
+
+        <label for="password">
+            <i class="fas fa-lock"></i>
+        </label>
+        <input type="password" name="password" placeholder="Wachtwoord" id="password" style="margin-bottom: 0px!important;" required>
+        <span class="password_requirements">Meer dan 5 karaketers</span>
+
+        <label for="con_password">
+            <i class="fas fa-lock"></i>
+        </label>
+        <input type="password" name="password" placeholder="Herhaal wachtwoord" id="con_password" required>
+
+        <label for="email">
+            <i class="fas fa-envelope"></i>
+        </label>
+        <input type="email" name="email" placeholder="Email" id="email" required>
+
+        <input type="button" name="save" class="buttonRegister" value="Registreer" id="butregister">
+    </form>
+</div>
+</body>
+<script>
+    $(document).ready(function() {
+        $("#butregister").click( function () {
+            var name = $('#username').val();
+            var password = $('#password').val();
+            var con_password = $('#con_password').val();
+            var email = $('#email').val();
+            // zijn beide velden ingevuld voer de functie uit
+            if(name!="" &&  password!="" ){
+                $.ajax({
+                    url: "register.php",
+                    type: "POST",
+                    data: {
+                        type: 1,
+                        username: name,
+                        password: password,
+                        con_password: con_password,
+                        email: email
+                    },
+                    cache: false,
+                    // Ajax request is gelukt
+                    success: function(dataResult) {
+                        var dataResult = JSON.parse(dataResult);
+                        // verwijder vorige meldingen
+                        $("#message_desc_error").attr('style', 'display:none;');
+                        $("#message_desc_succes").attr('style', 'display:none;');
+
+                        // als statusCode succes (200) is laat melding zien
+                        if (dataResult.statusCode == 200) {
+                            $("#message_desc_succes_text").text('Succes, account aangemaakt!');
+                            $("#message_desc_succes").attr('style', 'display:block;');
+                            setTimeout(
+                                function()
+                                {
+                                    location.href = '../dashboard/home.php';
+                                }, 1500);
+                        }
+                        // als statusCode error (201) is laat melding zien
+                        else if (dataResult.statusCode == 201) {
+                            $("#message_desc_error_text").text('Gebruikersnaam in gebruik.');
+                            $("#message_desc_error").attr('style', 'display:block;');
+                        }
+                        // als statusCode error (202) is laat melding zien
+                        else if (dataResult.statusCode == 202) {
+                            $("#message_desc_error_text").text('Email is niet geldig!');
+                            $("#message_desc_error").attr('style', 'display:block');
+                        }
+                        // als statusCode error (203) is laat melding zien
+                        else if (dataResult.statusCode == 203) {
+                            $("#message_desc_error_text").text('Gebruikersnaam bevat speciale karakters.');
+                            $("#message_desc_error").attr('style', 'display:block');
+                        }
+                        // als statusCode error (204) is laat melding zien
+                        else if (dataResult.statusCode == 204) {
+                            $("#message_desc_error_text").text('Wachtwoord niet gelijk aan elkaar!');
+                            $("#message_desc_error").attr('style', 'display:block');
+                        }
+                        // als statusCode error (205) is laat melding zien
+                        else if (dataResult.statusCode == 205) {
+                            $("#message_desc_error_text").text('Wachtwoord bevat te weinig karakters.');
+                            $("#message_desc_error").attr('style', 'display:block');
+                        }
+                        // als statusCode error (999) is laat melding zien
+                        else if (dataResult.statusCode == 999) {
+                            $("#message_desc_error_text").text('Formulier niet geldig!');
+                            $("#message_desc_error").attr('style', 'display:block');
+                        }
+                        // als statusCode error (998) is laat melding zien
+                        else if (dataResult.statusCode == 998) {
+                            $("#message_desc_error_text").text('Vul alle velden in!');
+                            $("#message_desc_error").attr('style', 'display:block');
+                        }
+                    }
+                });
+            }
+            else{
+                $("#message_desc_error_text").text('Vul beide velden in!');
+                $("#message_desc_error").attr('style', 'display:block');
+            }
+        })
+    });
+</script>
+</html>

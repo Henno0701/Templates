@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <!-- Imports -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <!-- StyleSheet -->
+    <link type="text/css" rel="stylesheet" href="css/home-style.css">
+    <!-- JavaScript -->
+    <script src="js/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+
+<div class="login">
+    <h1>Login</h1>
+    <form id="login_form" name="form1" method="post">
+        <div class="message_error" id="message_desc_error"><i class="fas fa-times" style="margin-right: 5px"></i><span id="message_desc_error_text"></span></div>
+        <div class="message_succes " id="message_desc_succes"><i class="fas fa-check" style="margin-right: 5px"></i><span id="message_desc_succes_text"></span></div>
+        <label for="username">
+            <i class="fas fa-user"></i>
+        </label>
+        <input type="text" name="username" placeholder="Username" id="username" >
+        <label for="password">
+            <i class="fas fa-lock"></i>
+        </label>
+        <input type="password" name="password" placeholder="Password" id="password" >
+        <input type="button" name="save" class="buttonLogin" value="Login" id="butlogin">
+    </form>
+    <a href="RegisterAccount/register.html" style="margin: 0px 20px">Maak account aan</a>
+</div>
+</body>
+<script>
+    $(document).ready(function() {
+        $("#butlogin").click( function () {
+            var name = $('#username').val();
+            var password = $('#password').val();
+            // zijn beide velden ingevuld voer de functie uit
+            if(name!="" &&  password!="" ){
+                $.ajax({
+                    url: "Authenticate.php",
+                    type: "POST",
+                    data: {
+                        type: 1,
+                        name: name,
+                        password: password
+                    },
+                    cache: false,
+                    // Ajax request is gelukt
+                    success: function(dataResult) {
+                        var dataResult = JSON.parse(dataResult);
+                        // verwijder vorige meldingen
+                        $("#message_desc_error").attr('style', 'display:none;');
+                        $("#message_desc_succes").attr('style', 'display:none;');
+
+                        // als statusCode succes (200) is laat melding zien
+                        if (dataResult.statusCode == 200) {
+                            $("#message_desc_succes_text").text('Succes!');
+                            $("#message_desc_succes").attr('style', 'display:block;');
+                            setTimeout(
+                                function()
+                                {
+                                    location.href = 'dashboard/home.php';
+                                }, 1500);
+                        }
+                        // als statusCode error (201) is laat melding zien
+                        else if (dataResult.statusCode == 201) {
+                            $("#message_desc_error_text").text('Verkeerd wachtwoord!');
+                            $("#message_desc_error").attr('style', 'display:block;');
+                        }
+                        // als statusCode error (201) is laat melding zien
+                        else if (dataResult.statusCode == 202) {
+                            $("#message_desc_error_text").text('Onbekend account!');
+                            $("#message_desc_error").attr('style', 'display:block');
+                        }
+                    }
+                });
+            }
+            else{
+                $("#message_desc_error_text").text('Vul beide velden in!');
+                $("#message_desc_error").attr('style', 'display:block');
+            }
+        })
+    });
+</script>
+</html>

@@ -17,6 +17,18 @@ if(count($_POST)>0){
             exit();
         }
 
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            // Email is niet geldig
+            echo json_encode(array("statusCode"=>201));
+            exit();
+        }
+
+        if (!is_numeric($phone)) {
+            // Telefoon is niet geldig
+            echo json_encode(array("statusCode"=>201));
+            exit();
+        }
+
         // Bereid de SQL voor
         if ($stmt = $con->prepare('INSERT INTO `crud` (name, email, phone, city) VALUES (?, ?, ?, ?)')) {
             // Bindparameters (s = string, i = int, b = blob, etc), in dit geval is de gebruikersnaam een string, dus "s"

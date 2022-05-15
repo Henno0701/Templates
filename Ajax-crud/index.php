@@ -163,8 +163,8 @@ include 'config.php';
         <div class="modal-content">
             <form>
                 <div class="modal-header">
-                    <h4 class="modal-title">Delete User</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title">Delete User</h4>
                 </div>
                 <div class="modal-body">
                     <input type="hidden" id="id_d" name="id" class="form-control">

@@ -7,6 +7,16 @@ if(count($_POST)>0){
         $phone=$_POST['phone'];
         $city=$_POST['city'];
 
+        if (!isset($name, $email, $phone, $city)) {
+            echo json_encode(array("statusCode" => 201));
+        }
+
+        if (empty($name) || empty($email) || empty($phone) || empty($city)) {
+            // Een of meer velden zijn leeg
+            echo json_encode(array("statusCode"=>201));
+            exit();
+        }
+
         // Bereid de SQL voor
         if ($stmt = $con->prepare('INSERT INTO `crud` (name, email, phone, city) VALUES (?, ?, ?, ?)')) {
             // Bindparameters (s = string, i = int, b = blob, etc), in dit geval is de gebruikersnaam een string, dus "s"

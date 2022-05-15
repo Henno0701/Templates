@@ -86,7 +86,7 @@ include 'config.php';
         <div class="modal-content">
             <form id="user_form">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <button type="button" id="close_modal_create" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="modal-title">Add User</h4>
                     <div class="message_error" id="message_create_error"><i class="fas fa-times" style="margin-right: 5px"></i><span id="message_create_desc_error_text"></span></div>
                     <div class="message_succes" id="message_create_succes"><i class="fas fa-check" style="margin-right: 5px"></i><span id="message_create_desc_succes_text"></span></div>
@@ -111,7 +111,7 @@ include 'config.php';
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" value="1" name="type">
-                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="button" id="cancel_modal_create" class="btn btn-default" data-dismiss="modal" value="Cancel">
                     <button type="button" class="btn btn-success" id="btn-add">Add</button>
                 </div>
             </form>
@@ -124,7 +124,7 @@ include 'config.php';
         <div class="modal-content">
             <form id="update_form">
                 <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <button type="button" class="close" id="close_modal_update" data-dismiss="modal" aria-hidden="true">×</button>
                     <h4 class="modal-title">Edit User</h4>
                     <div class="message_error" id="message_update_error"><i class="fas fa-times" style="margin-right: 5px"></i><span id="message_update_desc_error_text"></span></div>
                     <div class="message_succes" id="message_update_succes"><i class="fas fa-check" style="margin-right: 5px"></i><span id="message_update_desc_succes_text"></span></div>
@@ -150,7 +150,7 @@ include 'config.php';
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" value="2" name="type">
-                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="button" id="cancel_modal_update" class="btn btn-default" data-dismiss="modal" value="Cancel">
                     <button type="button" class="btn btn-info" id="update">Update</button>
                 </div>
             </form>
@@ -190,6 +190,8 @@ include 'config.php';
             url: "save.php",
             success: function(dataResult){
                 var dataResult = JSON.parse(dataResult);
+                $("#message_create_error").attr('style', 'display:none;');
+                $("#message_create_succes").attr('style', 'display:none;');
                 if(dataResult.statusCode==200){
                     // Laat een bericht zien als het is gelukt
                     $('#message_create_succes').attr('style', 'display:block');
@@ -209,6 +211,10 @@ include 'config.php';
                     $('#message_create_desc_error_text').text('Er is een fout opgetreden!');
                 }
             }
+        });
+        $("#close_modal_create, #cancel_modal_create").on('click', function () {
+            $("#message_create_error").attr('style', 'display:none;');
+            $("#message_create_succes").attr('style', 'display:none;');
         });
     });
     $(document).on('click','.update',function(e) {
@@ -236,6 +242,9 @@ include 'config.php';
             url: "save.php",
             success: function(dataResult){
                 var dataResult = JSON.parse(dataResult);
+                $("#message_update_error").attr('style', 'display:none;');
+                $("#message_update_succes").attr('style', 'display:none;');
+
                 if(dataResult.statusCode==200){
                     // Laat een bericht zien als het is gelukt
                     $('#message_update_succes').attr('style', 'display:block');
@@ -256,6 +265,10 @@ include 'config.php';
                     $('#message_update_desc_error_text').text('Er is een fout opgetreden!');
                 }
             }
+        });
+        $("#close_modal_update, #cancel_modal_update").on('click', function () {
+            $("#message_update_error").attr('style', 'display:none;');
+            $("#message_update_succes").attr('style', 'display:none;');
         });
     });
     $(document).on("click", ".delete", function() {

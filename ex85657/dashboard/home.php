@@ -17,6 +17,7 @@ require '../config.php';
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <script src="../js/jquery-3.6.0.min.js"></script>
+    <script src="../js/home.js"></script>
 </head>
 <body class="loggedin">
 <nav class="navtop">
@@ -71,15 +72,39 @@ require '../config.php';
                         <p><?php echo $row["Bestemming"];?></p>
                         <p><?php echo $row["Omschrijving"];?></p>
                         <p><strong><?php echo $row["Begindatum"];?></strong> tot <strong><?php echo $row["Einddatum"];?></strong></p>
-                        <p><?php echo $row["Begindatum"];?></p>
+                    <?php
+                    $resultInschrijvingen = $con->query('SELECT COUNT(*) FROM Inschrijvingen WHERE ReisID=1');
+                    $Inschrijvingen = implode(mysqli_fetch_assoc($resultInschrijvingen));
+                        if ($Inschrijvingen == $row["MaxInschrijvingen"]) {
+                            echo '<p style="color: red">VOL</p>';
+                        } else {
+                            echo '<p style="color: #8fe508"><strong>'.$Inschrijvingen.'</strong> van de <strong>'.$row["MaxInschrijvingen"].'</strong> Ingeschreven.</p>';
+                            echo '<div class="modal-form">';
+                            echo '<form>';
+                            echo '<input type="hidden" id="ReisID" value="'.$row["ID"].'">';
+                            echo '<div class="modal-form-input">';
+                            echo '<input type="text" id="ID" placeholder="Identiteitsbewijs" style="width: 100%">';
+                            echo '</div>';
+                            echo '<div class="modal-form-input">';
+                            echo '<textarea  id="Opmerkingen" placeholder="Opmerkingen (optioneel)" rows="3" style="width: 100%;max-width: 100%"></textarea>';
+                            echo '<button id="btn-inschrijvingen" style="">Inschrijven!</button>';
+                            echo '</div>';
+                            echo '</form>';
+                            echo '</div>';
+                        }
+
+                        ?>
                     </div>
+
                 </div>
             </div>
                 </div>
         <?php
+
             }
         }
     }
+
     ?>
     </div>
 </div>

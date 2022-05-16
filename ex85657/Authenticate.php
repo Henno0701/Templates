@@ -13,7 +13,7 @@ if($_POST['type']==1){
     }
 
     // Bereid de SQL voor
-    if ($stmt = $con->prepare('SELECT Naam, Wachtwoord FROM Studenten WHERE StudentNummer = ?')) {
+    if ($stmt = $con->prepare('SELECT Naam, Wachtwoord FROM studenten WHERE StudentNummer = ?')) {
         // Bindparameters (s = string, i = int, b = blob, etc), in dit geval is de gebruikersnaam een string, dus "s"
         $stmt->bind_param('s', $username);
         $stmt->execute();

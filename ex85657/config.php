@@ -1,8 +1,8 @@
 <?php
 // database connectie gegevens
 $DATABASE_HOST = '127.0.0.1';
-$DATABASE_USER = 'root';
-$DATABASE_PASS = '';
+$DATABASE_USER = 'ex85657';
+$DATABASE_PASS = 'Henno0701';
 $DATABASE_NAME = 'ex85657';
 
 // Connectie proberen te maken met gegevens hierboven

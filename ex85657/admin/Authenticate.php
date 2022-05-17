@@ -1,10 +1,10 @@
 <?php
 session_start();
-require 'config.php';
+require '../config.php';
 
 // haal gegevens van AJAX op
 if($_POST['type']==1){
-    $username= $_POST['studentnumber'];
+    $username= $_POST['docentAFK'];
     $password= SHA1($_POST['password']);
 
     // check of de form velden zijn ingevuld
@@ -13,7 +13,7 @@ if($_POST['type']==1){
     }
 
     // Bereid de SQL voor
-    if ($stmt = $con->prepare('SELECT Naam, Wachtwoord FROM Studenten WHERE StudentNummer = ?')) {
+    if ($stmt = $con->prepare('SELECT Naam, Wachtwoord FROM Docenten WHERE Afkorting = ?')) {
         // Bindparameters (s = string, i = int, b = blob, etc), in dit geval is de gebruikersnaam een string, dus "s"
         $stmt->bind_param('s', $username);
         $stmt->execute();
@@ -28,8 +28,8 @@ if($_POST['type']==1){
             if ($password == $passwordResult) {
                 // Maak sessions aan en sla dit op in de cookies om het terug te krijgen
                 session_regenerate_id();
-                $_SESSION['loggedin'] = TRUE;
-                $_SESSION['studentnumber'] = $username;
+                $_SESSION['admin-loggedin'] = TRUE;
+                $_SESSION['docentAFK'] = $username;
                 $_SESSION['name'] = $name;
 
                 echo json_encode(array("statusCode"=>200));

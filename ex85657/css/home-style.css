@@ -157,8 +157,9 @@ body.loggedin {
 }
 .trip-container {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     flex-wrap: wrap;
+    align-items: stretch;
 }
 
 .trip-box {
@@ -169,7 +170,7 @@ body.loggedin {
 }
 
 .trip-box-img {
-    height: 200px;
+    height: 300px;
     width: 100%;
 }
 .trip-box-text {
@@ -192,4 +193,14 @@ body.loggedin {
 .modal-form-input {
     margin-bottom: 10px;
     padding: 0px 10px;
+}
+
+.form-message-error {
+    width: 100%;
+    background-color: #dc3545;
+    color: white;
+    padding: 5px;
+    display: none;
+    border-radius: 2px;
+    margin-bottom: 2px;
 }

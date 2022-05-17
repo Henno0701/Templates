@@ -1,7 +1,6 @@
 <?php
 include '../../config.php';
 
-$valid_extensions = array('jpeg', 'jpg', 'png', 'gif', 'bmp' , 'pdf' , 'doc' , 'ppt');
 //create function
 if(count($_POST)>0){
     if($_POST['type']==1){
@@ -11,6 +10,7 @@ if(count($_POST)>0){
         $begindatum=$_POST['begindatum'];
         $einddatum=$_POST['einddatum'];
         $maxInschrijvingen=$_POST['maxInSchrijvingen'];
+        $afbeelding=$_POST['afbeelding'];
 
         if (!isset($titel, $bestemming, $omschrijving, $begindatum, $einddatum, $maxInschrijvingen)) {
             echo json_encode(array("statusCode" => 201));
@@ -29,11 +29,10 @@ if(count($_POST)>0){
             exit();
         }
 
-        die();
         // Bereid de SQL voor
-        if ($stmt = $con->prepare('INSERT INTO `Reizen` (Titel, Bestemming, Omschrijving, Begindatum, Einddatum, MaxInschrijvingen) VALUES (?, ?, ?, ?, ?, ?)')) {
+        if ($stmt = $con->prepare('INSERT INTO `Reizen` (Titel, Bestemming, Omschrijving, Begindatum, Einddatum, MaxInschrijvingen, Afbeelding) VALUES (?, ?, ?, ?, ?, ?, ?)')) {
             // Bindparameters (s = string, i = int, b = blob, etc), in dit geval is de gebruikersnaam een string, dus "s"
-            $stmt->bind_param('sssssi', $titel, $bestemming, $omschrijving, $begindatum, $einddatum, $maxInschrijvingen);
+            $stmt->bind_param('sssssis', $titel, $bestemming, $omschrijving, $begindatum, $einddatum, $maxInschrijvingen, $afbeelding);
             // voer SQL uit
             $stmt->execute();
 

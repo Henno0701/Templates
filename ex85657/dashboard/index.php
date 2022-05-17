@@ -48,7 +48,8 @@ if (!isset($_SESSION['admin-loggedin']) || $_SESSION['admin-loggedin'] == "") {
                     <h2>Reizen <b>Overzicht</b></h2>
                 </div>
                 <div class="col-sm-6">
-                    <a href="#addEmployeeModal" class="btn btn-success pull-right" data-toggle="modal"><i class="fas fa-plus"></i> <span>Nieuwe reis toevoegen</span></a>
+                    <a href="#addReisModal" class="btn btn-success pull-right" data-toggle="modal"><i
+                                class="fas fa-plus"></i> <span>Nieuwe reis toevoegen</span></a>
                 </div>
             </div>
         </div>
@@ -68,24 +69,23 @@ if (!isset($_SESSION['admin-loggedin']) || $_SESSION['admin-loggedin'] == "") {
             <tbody>
 
             <?php
-            $result = mysqli_query($con,"SELECT * FROM Reizen");
+            $result = mysqli_query($con, "SELECT * FROM Reizen");
+
             // Loop alle data van de database naar pagina
-            while($row = mysqli_fetch_array($result)) {
+            while ($row = mysqli_fetch_array($result)) {
                 ?>
                 <tr id="<?php echo $row["ID"]; ?>">
 
                     <td><?php echo $row['ID']; ?></td>
                     <td class="text-overflow" title="<?php echo $row["Titel"]; ?>"><?php echo $row["Titel"]; ?></td>
                     <td><?php echo $row["Bestemming"]; ?></td>
-                    <td class="text-overflow" title="<?php echo $row["Omschrijving"]; ?>"><?php echo $row["Omschrijving"]; ?></td>
+                    <td class="text-overflow"
+                        title="<?php echo $row["Omschrijving"]; ?>"><?php echo $row["Omschrijving"]; ?></td>
                     <td><?php echo $row["Begindatum"]; ?></td>
                     <td><?php echo $row["Einddatum"]; ?></td>
-                    <?php
-                    $resultInschrijvingen = $con->query('SELECT COUNT(*) FROM Inschrijvingen WHERE ReisID='.$row["ID"]);
-                    $Inschrijvingen = implode(mysqli_fetch_assoc($resultInschrijvingen));
-                        echo '<td title="Inschrijvingen">'.$Inschrijvingen.'</td>'; ?>
+                    <td><a href="ingeschreven.php?id=<?php echo $row["ID"]; ?>" class="read" data-toggle="modal"><i class="fas fa-info-circle" data-toggle="tooltip"</td>
                     <td>
-                        <a href="#editEmployeeModal" class="edit" data-toggle="modal">
+                        <a href="#editReisModal" class="edit" data-toggle="modal">
                             <!-- Stuur data attributes mee om makkelijk te updaten -->
                             <i class="fas fa-pencil-alt update" data-toggle="tooltip"
                                data-id="<?php echo $row["ID"]; ?>"
@@ -98,8 +98,9 @@ if (!isset($_SESSION['admin-loggedin']) || $_SESSION['admin-loggedin'] == "") {
                                title="Aanpassen"></i>
                         </a>
                         <!-- Stuur data attributes mee om makkelijk te verwijderen -->
-                        <a href="#deleteEmployeeModal" class="delete" data-id="<?php echo $row["ID"]; ?>" data-toggle="modal"><i class="fas fa-trash" data-toggle="tooltip"
-                                                                                                                                 title="Verwijderen"></i></a>
+                        <a href="#deleteReisModal" class="delete" data-id="<?php echo $row["ID"]; ?>"
+                           data-toggle="modal"><i class="fas fa-trash" data-toggle="tooltip"
+                                                  title="Verwijderen"></i></a>
                     </td>
                 </tr>
                 <?php
@@ -110,16 +111,22 @@ if (!isset($_SESSION['admin-loggedin']) || $_SESSION['admin-loggedin'] == "") {
 
     </div>
 </div>
-<!-- Create Modal HTML -->
-<div id="addEmployeeModal" class="modal fade">
+<!-- toevoegen Modal HTML -->
+<div id="addReisModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <form id="reis-toevoegen-form">
                 <div class="modal-header">
-                    <button type="button" id="close_modal_create" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <button type="button" id="close_modal_create" class="close" data-dismiss="modal" aria-hidden="true">
+                        ×
+                    </button>
                     <h4 class="modal-title">Reis toevoegen</h4>
-                    <div class="message_error" id="message_create_error"><i class="fas fa-times" style="margin-right: 5px"></i><span id="message_create_desc_error_text"></span></div>
-                    <div class="message_succes" id="message_create_succes"><i class="fas fa-check" style="margin-right: 5px"></i><span id="message_create_desc_succes_text"></span></div>
+                    <div class="message_error" id="message_create_error"><i class="fas fa-times"
+                                                                            style="margin-right: 5px"></i><span
+                                id="message_create_desc_error_text"></span></div>
+                    <div class="message_succes" id="message_create_succes"><i class="fas fa-check"
+                                                                              style="margin-right: 5px"></i><span
+                                id="message_create_desc_succes_text"></span></div>
                 </div>
                 <div class="modal-body">
                     <div class="form-group">
@@ -132,7 +139,8 @@ if (!isset($_SESSION['admin-loggedin']) || $_SESSION['admin-loggedin'] == "") {
                     </div>
                     <div class="form-group">
                         <label>Omschrijving</label>
-                        <textarea id="omschrijving_c" name="omschrijving" class="form-control" rows="3" style="max-width: 100%;"></textarea>
+                        <textarea id="omschrijving_c" name="omschrijving" class="form-control" rows="3"
+                                  style="max-width: 100%;"></textarea>
                     </div>
                     <div class="form-group">
                         <label>Begindatum</label>
@@ -144,32 +152,51 @@ if (!isset($_SESSION['admin-loggedin']) || $_SESSION['admin-loggedin'] == "") {
                     </div>
                     <div class="form-group">
                         <label>Max Inschrijvingen</label>
-                        <input type="number" id="maxInschrijvingen_c" name="maxInSchrijvingen" class="form-control" required>
+                        <input type="number" id="maxInschrijvingen_c" name="maxInSchrijvingen" class="form-control"
+                               required>
                     </div>
                     <div class="form-group">
-                        <label>Foto toevoegen</label>
-                        <input type="file" id="afbeelding_c" name="afbeelding" class="form-control" required>
+                        <label style="width: 100%">Foto toevoegen</label>
+                        <select id="afbeelding" name="afbeelding">
+                            <?php
+                            $result = mysqli_query($con, "SELECT * FROM Afbeeldingen");
+
+                            // Loop alle data van de database naar pagina
+                            while ($row = mysqli_fetch_array($result)) {
+                            ?>
+                                <option value="<?php echo trim($row["Naam"]);?>"><?php echo trim($row["Naam"]);?></option>
+                                <?php
+                            }
+                            ?>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" value="1" name="type">
-                    <input type="button" id="cancel_modal_create" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="button" id="cancel_modal_create" class="btn btn-default" data-dismiss="modal"
+                           value="Cancel">
                     <button type="button" class="btn btn-success" id="btn-reis-toevoegen">Toevoegen</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-<!-- Edit Modal HTML -->
-<div id="editEmployeeModal" class="modal fade">
+<!-- verander Modal HTML -->
+<div id="editReisModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <form id="update_form">
                 <div class="modal-header">
-                    <button type="button" class="close" id="close_modal_update" data-dismiss="modal" aria-hidden="true">×</button>
+                    <button type="button" class="close" id="close_modal_update" data-dismiss="modal" aria-hidden="true">
+                        ×
+                    </button>
                     <h4 class="modal-title">Reis aanpassen</h4>
-                    <div class="message_error" id="message_update_error"><i class="fas fa-times" style="margin-right: 5px"></i><span id="message_update_desc_error_text"></span></div>
-                    <div class="message_succes" id="message_update_succes"><i class="fas fa-check" style="margin-right: 5px"></i><span id="message_update_desc_succes_text"></span></div>
+                    <div class="message_error" id="message_update_error"><i class="fas fa-times"
+                                                                            style="margin-right: 5px"></i><span
+                                id="message_update_desc_error_text"></span></div>
+                    <div class="message_succes" id="message_update_succes"><i class="fas fa-check"
+                                                                              style="margin-right: 5px"></i><span
+                                id="message_update_desc_succes_text"></span></div>
                 </div>
                 <div class="modal-body">
                     <input type="hidden" id="id_u" name="id" class="form-control" required>
@@ -183,7 +210,8 @@ if (!isset($_SESSION['admin-loggedin']) || $_SESSION['admin-loggedin'] == "") {
                     </div>
                     <div class="form-group">
                         <label>Omschrijving</label>
-                       <textarea id="omschrijving_u" name="omschrijving" class="form-control" rows="3" style="max-width: 100%;"></textarea>
+                        <textarea id="omschrijving_u" name="omschrijving" class="form-control" rows="3"
+                                  style="max-width: 100%;"></textarea>
                     </div>
                     <div class="form-group">
                         <label>Begindatum</label>
@@ -195,20 +223,22 @@ if (!isset($_SESSION['admin-loggedin']) || $_SESSION['admin-loggedin'] == "") {
                     </div>
                     <div class="form-group">
                         <label>Max Inschrijvingen</label>
-                        <input type="number" id="maxInschrijvingen_u" name="maxInSchrijvingen" class="form-control" required>
+                        <input type="number" id="maxInschrijvingen_u" name="maxInSchrijvingen" class="form-control"
+                               required>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <input type="hidden" value="2" name="type">
-                    <input type="button" id="cancel_modal_update" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                    <input type="button" id="cancel_modal_update" class="btn btn-default" data-dismiss="modal"
+                           value="Cancel">
                     <button type="button" class="btn btn-info" id="update">Update</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
-<!-- Delete Modal HTML -->
-<div id="deleteEmployeeModal" class="modal fade">
+<!-- verwijder Modal HTML -->
+<div id="deleteReisModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
             <form>
@@ -232,32 +262,29 @@ if (!isset($_SESSION['admin-loggedin']) || $_SESSION['admin-loggedin'] == "") {
 
 </body>
 <script>
-    $(document).on('click','#btn-reis-toevoegen',function(e) {
+    $(document).on('click', '#btn-reis-toevoegen', function (e) {
         var data = $("#reis-toevoegen-form").serialize();
-        console.log($("#afbeelding_c").val());
 
         $.ajax({
             data: data,
             type: "post",
             url: "functies/save.php",
-            success: function(dataResult){
+            success: function (dataResult) {
                 var dataResult = JSON.parse(dataResult);
                 $("#message_create_error").attr('style', 'display:none;');
                 $("#message_create_succes").attr('style', 'display:none;');
-                if(dataResult.statusCode==200){
+                if (dataResult.statusCode == 200) {
                     // Laat een bericht zien als het is gelukt
                     $('#message_create_succes').attr('style', 'display:block');
                     $('#message_create_desc_succes_text').text('Reis toegevoegd!');
 
                     setTimeout(
-                        function()
-                        {
+                        function () {
                             // reload pagina
                             $('#addEmployeeModal').modal('hide');
                             location.reload();
                         }, 2000);
-                }
-                else if(dataResult.statusCode==201){
+                } else if (dataResult.statusCode == 201) {
                     // Laat een bericht zien als het fout is gegaan
                     $('#message_create_error').attr('style', 'display:block');
                     $('#message_create_desc_error_text').text('Er is een fout opgetreden!');
@@ -269,15 +296,14 @@ if (!isset($_SESSION['admin-loggedin']) || $_SESSION['admin-loggedin'] == "") {
             $("#message_create_succes").attr('style', 'display:none;');
         });
     });
-    $(document).on('click','.update',function(e) {
+
+    $(document).on('click', '.read', function (e) {
         // Haal data op van attributes
-        var id=$(this).attr("data-id");
-        var titel=$(this).attr("data-titel");
-        var bestemming=$(this).attr("data-bestemming");
-        var omschrijving=$(this).attr("data-omschrijving");
-        var begindatum=$(this).attr("data-begindatum");
-        var einddatum=$(this).attr("data-einddatum");
-        var maxInschrijvingen=$(this).attr("data-maxInschrijvingen");
+        var id = $(this).attr("data-id");
+
+        for (i=0; i < id; i++) {
+            console.log('test');
+        }
 
         $('#id_u').val(id);
         $('#titel_u').val(titel);
@@ -289,33 +315,51 @@ if (!isset($_SESSION['admin-loggedin']) || $_SESSION['admin-loggedin'] == "") {
 
     });
 
-    $(document).on('click','#update',function(e) {
+    $(document).on('click', '.update', function (e) {
+        // Haal data op van attributes
+        var id = $(this).attr("data-id");
+        var titel = $(this).attr("data-titel");
+        var bestemming = $(this).attr("data-bestemming");
+        var omschrijving = $(this).attr("data-omschrijving");
+        var begindatum = $(this).attr("data-begindatum");
+        var einddatum = $(this).attr("data-einddatum");
+        var maxInschrijvingen = $(this).attr("data-maxInschrijvingen");
+
+        $('#id_u').val(id);
+        $('#titel_u').val(titel);
+        $('#bestemming_u').val(bestemming);
+        $('#omschrijving_u').val(omschrijving);
+        $('#begindatum_u').val(begindatum);
+        $('#einddatum_u').val(einddatum);
+        $('#maxInschrijvingen_u').val(maxInschrijvingen);
+
+    });
+
+    $(document).on('click', '#update', function (e) {
         // Refresh het form om alle data op orde te hebben
         var data = $("#update_form").serialize();
         $.ajax({
             data: data,
             type: "post",
             url: "functies/save.php",
-            success: function(dataResult){
+            success: function (dataResult) {
                 var dataResult = JSON.parse(dataResult);
                 $("#message_update_error").attr('style', 'display:none;');
                 $("#message_update_succes").attr('style', 'display:none;');
 
-                if(dataResult.statusCode==200){
+                if (dataResult.statusCode == 200) {
                     // Laat een bericht zien als het is gelukt
                     $('#message_update_succes').attr('style', 'display:block');
                     $('#message_update_desc_succes_text').text('Reis aangepast!');
 
                     setTimeout(
-                        function()
-                        {
+                        function () {
                             // reload pagina
                             $('#editEmployeeModal').modal('hide');
                             location.reload();
                         }, 2000);
 
-                }
-                else if(dataResult.statusCode==201){
+                } else if (dataResult.statusCode == 201) {
                     // Laat een bericht zien als het fout is gegaan
                     $('#message_update_error').attr('style', 'display:block');
                     $('#message_update_desc_error_text').text('Er is een fout opgetreden!');
@@ -327,23 +371,23 @@ if (!isset($_SESSION['admin-loggedin']) || $_SESSION['admin-loggedin'] == "") {
             $("#message_update_succes").attr('style', 'display:none;');
         });
     });
-    $(document).on("click", ".delete", function() {
-        var id=$(this).attr("data-id");
+    $(document).on("click", ".delete", function () {
+        var id = $(this).attr("data-id");
         $('#id_d').val(id);
 
     });
-    $(document).on("click", "#delete", function() {
+    $(document).on("click", "#delete", function () {
         $.ajax({
             url: "functies/save.php",
             type: "POST",
             cache: false,
-            data:{
-                type:3,
+            data: {
+                type: 3,
                 id: $("#id_d").val()
             },
-            success: function(dataResult){
+            success: function (dataResult) {
                 $('#deleteEmployeeModal').modal('hide');
-                $("#"+dataResult).remove();
+                $("#" + dataResult).remove();
 
             }
         });

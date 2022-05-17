@@ -46,35 +46,35 @@ require '../config.php';
 <div class="content">
     <h2>Ga Lekker Reizen</h2>
     <p><?php
-        if (isset($_SESSION['loggedin'])) {
+        if (isset($_SESSION['loggedin']) || isset($_SESSION['admin-loggedin'])) {
             echo "Hi, " . $_SESSION['name'] . "!";
         }?></p>
     <div class="trip-container">
     <?php
-    if (isset($_SESSION['loggedin'])) {
+    if (isset($_SESSION['loggedin']) || isset($_SESSION['admin-loggedin'])) {
         $result = $con->query('SELECT * FROM Reizen');
         if (mysqli_num_rows($result) > 0) {
             // output data of each row
             while($row = mysqli_fetch_assoc($result)) {?>
                 <div class="trip-box">
                     <div>
-                        <img src="../img/texel-eiland-vuurtoren-809x540.jpeg" style="width: 100%">
+                        <img src="../img/<?php echo $row["Afbeelding"]?>" style="width: 100%">
                         <div class="trip-box-text">
                             <h2><?php echo $row["Titel"];?></h2>
                             <p><?php echo $row["Bestemming"];?></p>
                             <p><?php echo $row["Begindatum"];?></p>
-                            <?php echo "<a href='#editEmployeeModal".$row['ID']."' data-toggle='modal' class='trip-box-button'>Meer Informatie</a>";?>
+                            <?php echo "<a href='#readReisModal".$row['ID']."' data-toggle='modal' class='trip-box-button'>Meer Informatie</a>";?>
                         </div>
                     </div>
                 </div>
 
         <!-- Edit Modal HTML -->
-        <?php echo "<div id='editEmployeeModal".$row['ID']."' class='modal fade'>";?>
+        <?php echo "<div id='readReisModal".$row['ID']."' class='modal fade'>";?>
             <div class="modal-dialog">
                 <div class="modal-content">
                     <form id="Inschrijving-form" name="form2" method="post">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <img src="../img/2.webp" class="trip-box-img">
+                        <img src="../img/<?php echo $row["Afbeelding"]?>" class="trip-box-img">
                         <div class="trip-box-text">
                             <h2><?php echo $row["Titel"];?></h2>
                             <p><?php echo $row["Bestemming"];?></p>
@@ -93,9 +93,9 @@ require '../config.php';
 
                                 if (mysqli_num_rows($ingeschreven) > 0) {
                                     echo '<div class="modal-form">';
+                                    echo '<div class="modal-form-input">';
                                     echo '<input type="hidden" id="StudentNumber" value="' . $_SESSION["studentnumber"] . '">';
                                     echo '<input type="hidden" id="ReisID" value="' . $row["ID"] . '">';
-                                    echo '<div class="modal-form-input">';
                                     echo '<input type="button" id="Uitschrijvingen-btn" class="btn btn-danger" value="Uitschrijven!">';
                                     echo '</div>';
                                     echo '</div>';
@@ -118,11 +118,10 @@ require '../config.php';
                                 } else {
 
                                     echo '<div class="modal-form">';
-                                    echo '<input type="hidden" id="StudentNumber" value="' . $_SESSION["studentnumber"] . '">';
-                                    echo '<input type="hidden" id="ReisID" value="' . $row["ID"] . '">';
                                     echo '<div class="modal-form-input">';
                                     echo '<div class="form-message-error" id="form-message-error' . $row["ID"] . '"></div>';
-
+                                    echo '<input type="hidden" id="StudentNumber" value="' . $_SESSION["studentnumber"] . '">';
+                                    echo '<input type="hidden" id="ReisID" value="' . $row["ID"] . '">';
                                     if (mysqli_num_rows($ingeschreven) > 0) {
                                         echo '<input type="button" id="Uitschrijvingen-btn" class="btn btn-danger" value="Uitschrijven!">';
                                     }

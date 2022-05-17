@@ -9,6 +9,7 @@ if($_POST['type']==1){
     $ID= $_POST['ID'];
     $Opmerkingen= $_POST['Opmerkingen'];
 
+
     //de gegevens om bouwen naar de juiste instelling
     $id = trim($ID);
 

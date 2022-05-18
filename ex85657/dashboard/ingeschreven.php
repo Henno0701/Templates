@@ -5,7 +5,7 @@ include '../config.php';
  $id = $_GET['id'];
 
 if (!isset($_SESSION['admin-loggedin']) || $_SESSION['admin-loggedin'] == "") {
-    header("location:home.php");
+    header("location:index.php");
 }
 ?>
 <!DOCTYPE html>
@@ -29,11 +29,11 @@ if (!isset($_SESSION['admin-loggedin']) || $_SESSION['admin-loggedin'] == "") {
     <div class="navtop-header">
         <img src="../img/glr.png" style="height: 100%;padding: 0px 50px">
         <div class="navbar-right">
-            <a href="home.php"><i class="fas fa-home"></i>Startpagina</a>
+            <a href="index.php"><i class="fas fa-home"></i>Startpagina</a>
             <?php
             if (isset($_SESSION['admin-loggedin'])) {
                 ?>
-                <a href="index.php"><i class="fas fa-clipboard-list"></i>Overicht</a>
+                <a href="home.php"><i class="fas fa-clipboard-list"></i>Overicht</a>
                 <a href="../admin/logout.php"><i class="fas fa-sign-out-alt"></i>Log uit</a>
                 <?php
             }
@@ -45,7 +45,7 @@ if (!isset($_SESSION['admin-loggedin']) || $_SESSION['admin-loggedin'] == "") {
     <p id="success"></p>
     <div class="table-wrapper">
         <div class="table-title">
-            <a href="index.php" style="width: 100%;padding: 0px 20px;font-size: 12px"><i class="fas fa-long-arrow-alt-left" style="margin-right: 5px;font-size: 12px"></i>Terug</a>
+            <a href="home.php" style="width: 100%;padding: 0px 20px;font-size: 12px;"><i class="fas fa-long-arrow-alt-left" style="margin-right: 5px;font-size: 12px"></i>Terug</a>
             <div class="row">
                 <div class="col-sm-6">
                     <h2>Reizen <b>Overzicht</b></h2>

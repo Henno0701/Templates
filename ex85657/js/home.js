@@ -31,6 +31,7 @@ $(document).ready(function () {
                         $("#form-message-error"+ReisID).attr('style', 'display:block;');
                     }
                     else {
+                        // reload is het is gelukt
                         location.reload();
                     }
                 }
@@ -58,7 +59,7 @@ $(document).ready(function () {
                     var dataResult = JSON.parse(dataResult);
                     $("#form-message-error" + ReisID).attr('style', 'display:none;');
 
-                    // weergeef foutmelding als dit is aangegeven door de php
+                    // Reload als de statuscode wordt terug gegeven van 200
                     if (dataResult.statusCode == 200) {
                         location.reload();
                     }

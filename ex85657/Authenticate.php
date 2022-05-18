@@ -14,7 +14,7 @@ if($_POST['type']==1){
 
     // Bereid de SQL voor
     if ($stmt = $con->prepare('SELECT Naam, Wachtwoord FROM Studenten WHERE StudentNummer = ?')) {
-        // Bindparameters (s = string, i = int, b = blob, etc), in dit geval is de gebruikersnaam een string, dus "s"
+        // voeg de juiste gegevens toe in de parameter
         $stmt->bind_param('s', $username);
         $stmt->execute();
         // Sla het resultaat op zodat we kunnen controleren of het account in de database bestaat.

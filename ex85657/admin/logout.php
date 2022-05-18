@@ -7,5 +7,5 @@ unset($_SESSION["name"]);
 
 session_destroy();
 // Redirect to the login page:
-header('Location: ../dashboard/home.php');
+header('Location: ../dashboard/index.php');
 ?>

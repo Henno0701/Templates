@@ -19,6 +19,7 @@ if($_POST['type']==1){
         exit();
     }
 
+    // check of het veld BSN wel 9 karakters heeft.
     if(strlen($id) != 9) {
         echo json_encode(array("statusCode"=>202));
         exit();
@@ -26,6 +27,7 @@ if($_POST['type']==1){
 
     // Bereid de SQL voor
     if ($stmt = $con->prepare('INSERT INTO Inschrijvingen (StudentNummer, ReisID, Identiteitbewijs, Opmerkingen) VALUES (?, ?, ?, ?)')) {
+        // voeg de juiste gegevens toe in de parameter
         $stmt->bind_param('iiis', $StudentNummer,$ReisID, $ID, $Opmerkingen);
         $stmt->execute();
 
@@ -35,10 +37,12 @@ if($_POST['type']==1){
 }
 
 if($_POST['type']==2){
+// haal gegevens van AJAX op
     $ReisID= $_POST['ReisID'];
     $StudentNummer= $_SESSION['studentnumber'];
     // Bereid de SQL voor
     if ($stmt = $con->prepare('DELETE FROM Inschrijvingen WHERE StudentNummer = ? AND ReisID = ?')) {
+        // voeg de juiste gegevens toe in de parameter
         $stmt->bind_param('ii', $StudentNummer,$ReisID);
         $stmt->execute();
 
